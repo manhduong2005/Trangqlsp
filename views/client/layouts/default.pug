@@ -1,0 +1,16 @@
+doctype htmml
+html
+    head 
+        title #{pageTitle}
+        link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css")
+
+        link(rel="stylesheet", href="/css/style.css")// file css của dự án trong thư mục public
+body 
+    include ../partials/header.pug
+
+    block main 
+
+    include ../partials/footer.pug 
+    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.j")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js") 
+    script(src="/js/script.js")// file js của dự án trong thư mục public

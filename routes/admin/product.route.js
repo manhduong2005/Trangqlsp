@@ -5,4 +5,6 @@ const controller = require("../../controllers/admin/product.controller");
 
 router.get('/', controller.index);   // khi truy cập vào /admin/products, gọi hàm index trong controller
 
+router.patch('/change-status/:status/:id', controller.changeStatus);
+
 module.exports = router;

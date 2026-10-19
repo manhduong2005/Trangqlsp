@@ -17,7 +17,7 @@ module.exports.index = async (req, res) => {
 
   };
 
-  if(req.query.status){
+  if (req.query.status) {
     find.status = req.query.status;// gán thêm trường status vào find để lọc theo status
   }
 
@@ -25,27 +25,27 @@ module.exports.index = async (req, res) => {
   const objectSearch = searchHelper(req.query);
   //console.log(objectSearch)
 
-  if(objectSearch.regex){
+  if (objectSearch.regex) {
     find.title = objectSearch.regex;
   }
 
   // end filterStatus, search
   //pagination
   const countProducts = await Product.countDocuments(find)
-  
+
   let objectPagination = paginationHelper(
     {
-    currentPage: 1,
-    limitItems: 4
+      currentPage: 1,
+      limitItems: 4
     },
     req.query,
     countProducts
-  ); 
+  );
 
   //end patination
-  
+
   const products = await Product.find(find).limit(objectPagination.limitItems).skip(objectPagination.skip);
-  
+
 
   //console.log(products);
 
@@ -57,3 +57,37 @@ module.exports.index = async (req, res) => {
     pagination: objectPagination
   });
 }
+//[GET]  /admin/products/change-status/:status/:id
+
+// module.exports.changeStatus = async (req, res) => {
+//   // console.log("changeStatus");
+//   // console.log(req.params);
+//   const status = req.params.status;
+//   const id = req.params.id;
+
+//   await Product.updateOne(
+//       { _id: id },
+//       { status: status }
+//     );
+
+//   res.redirect("back"); // sau khi thay đổi trạng thái xong, chuyển hướng về trang trước đó
+// }
+module.exports.changeStatus = async (req, res) => {
+  try {
+    const status = req.params.status;
+    const id = req.params.id;
+
+    // Cập nhật trạng thái sản phẩm
+    await Product.updateOne(
+      { _id: id },
+      { status: status }
+    );
+
+    // Lấy URL trang trước đó (bảo toàn các params ?page=...&keyword=...)
+    const redirectUrl = req.get("Referrer") || "/admin/products";
+    res.redirect(redirectUrl);
+  } catch (error) {
+    console.error("Lỗi cập nhật trạng thái:", error.message);
+    res.redirect("/admin/products");
+  }
+};

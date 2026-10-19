@@ -1,4 +1,7 @@
- const express = require('express')
+const express = require('express')
+
+var methodOverride = require('method-override');
+
 require('dotenv').config();
 
 const database = require("./config/database.js")
@@ -12,6 +15,8 @@ database.connect();
 const app = express()
 
 const port = process.env.PORT;
+
+app.use(methodOverride('_method'))
 
 //cấu hình pug vào dự án
 app.set('views', './views')// chứa các file pug 

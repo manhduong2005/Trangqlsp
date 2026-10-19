@@ -7,4 +7,6 @@ router.get('/', controller.index);   // khi truy cập vào /admin/products, g�
 
 router.patch('/change-status/:status/:id', controller.changeStatus);
 
+router.patch('/change-multi', controller.changeMulti);
+
 module.exports = router;

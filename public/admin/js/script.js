@@ -57,3 +57,26 @@ if(buttonPagination){
 }
 
 //end Pagination
+
+//Checkbox multi
+const checkboxMulti = document.querySelector("[checkbox-multi]");
+if(checkboxMulti){
+  const inputCheckAll = checkboxMulti.querySelector("input[name='checkall']");
+  const inputsId = checkboxMulti.querySelectorAll("input[name='id']");
+  
+  inputCheckAll.addEventListener("click", () => {
+    if(inputCheckAll.checked){
+      inputsId.forEach(input => {
+        input.checked = true;
+      });
+    }else{
+      inputsId.forEach(input => {
+        input.checked = false;
+      });
+    }
+  });
+}
+
+
+
+//End Checkbox multi

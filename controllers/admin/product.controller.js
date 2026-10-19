@@ -57,7 +57,7 @@ module.exports.index = async (req, res) => {
     pagination: objectPagination
   });
 }
-//[GET]  /admin/products/change-status/:status/:id
+//[PATCH]  /admin/products/change-status/:status/:id
 
 // module.exports.changeStatus = async (req, res) => {
 //   // console.log("changeStatus");
@@ -72,6 +72,7 @@ module.exports.index = async (req, res) => {
 
 //   res.redirect("back"); // sau khi thay đổi trạng thái xong, chuyển hướng về trang trước đó
 // }
+////[PATCH]  /admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
   try {
     const status = req.params.status;
@@ -91,3 +92,7 @@ module.exports.changeStatus = async (req, res) => {
     res.redirect("/admin/products");
   }
 };
+module.exports.changeMulti = async (req, res) => {
+  console.log(req.body);
+  res.send("ok");
+}

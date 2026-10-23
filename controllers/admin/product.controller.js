@@ -111,7 +111,24 @@ module.exports.changeMulti = async (req, res) => {
 
     res.redirect(req.get("Referrer") || "/admin/products");
   } catch (error) {
-    console.error("Lỗi changeMulti:", error.message);
+    console.error("Lỗi changeMulti:", error.message); 
+    res.redirect("/admin/products");
+  }
+};
+// [DELETE] /admin/products/delete/:id
+module.exports.deleteItem = async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    // await Product.deleteOne({ _id: id }); //xoá cứng
+    await Product.updateOne({ _id: id }, { 
+      deleted: true,
+      deletedAt: new Date()
+     });
+
+    res.redirect(req.get("Referrer") || "/admin/products");
+  } catch (error) {
+    console.error("Lỗi deleteItem:", error.message);
     res.redirect("/admin/products");
   }
 };

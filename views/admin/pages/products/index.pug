@@ -6,6 +6,10 @@ include ../../mixins/search.pug
 
 include ../../mixins/pagination.pug
 
+include ../../mixins/form-change-multi.pug
+
+
+
 block main 
   h1 Danh sách sản phẩm
 
@@ -23,27 +27,8 @@ block main
   .card.mb-3 
     .card-header Danh sách sản phẩm
     .card-body
-      form(
-        action=`${prefixAdmin}/products/change-multi?_method=PATCH`
-        method="POST"
-        form-change-multi
-      )
-        .d-flex.align-items-start
-          .form-group
-            select(name="type" class="form-control")
-              option(value="active") Hoạt động
-              option(value="inactive") Dừng hoạt động
-          .form-group
-            input(
-              type="text"
-              name="ids"
-              value=""
-              class="form-control"
-            )
-          button(
-            type="submit"
-            class="btn btn-primary"
-          ) Áp dụng
+      +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+      
 
       table(
         class="table  table-hover table-sm"

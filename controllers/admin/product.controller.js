@@ -92,7 +92,26 @@ module.exports.changeStatus = async (req, res) => {
     res.redirect("/admin/products");
   }
 };
+// [PATCH] /admin/products/change-multi
 module.exports.changeMulti = async (req, res) => {
-  console.log(req.body);
-  res.send("ok");
-}
+  try {
+    const type = req.body.type;
+    const ids = req.body.ids ? req.body.ids.split(",").map(id => id.trim()) : [];
+
+    switch (type) {
+      case "active":
+        await Product.updateMany({ _id: { $in: ids } }, { status: "active" });
+        break;
+      case "inactive":
+        await Product.updateMany({ _id: { $in: ids } }, { status: "inactive" });
+        break;
+      default:
+        break;
+    }
+
+    res.redirect(req.get("Referrer") || "/admin/products");
+  } catch (error) {
+    console.error("Lỗi changeMulti:", error.message);
+    res.redirect("/admin/products");
+  }
+};

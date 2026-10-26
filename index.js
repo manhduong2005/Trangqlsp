@@ -4,6 +4,14 @@ const bodyParser = require('body-parser')
 
 var methodOverride = require('method-override');
 
+var flash = require('express-flash');
+
+var cookieParser = require('cookie-parser');
+
+var session = require('express-session');
+
+
+
 require('dotenv').config();
 
 const database = require("./config/database.js")
@@ -19,13 +27,22 @@ const app = express()
 const port = process.env.PORT;
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded())
+// app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(methodOverride('_method'))
 
 //cấu hình pug vào dự án
 app.set('views', './views')// chứa các file pug 
 app.set('view engine', 'pug');
+
+//Flash
+
+app.use(cookieParser('gdgdfgdfg'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
+
+//End Flash 
 
 // App local variables
 app.locals.prefixAdmin = systemconfig.prefixAdmin;

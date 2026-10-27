@@ -10,6 +10,8 @@ var cookieParser = require('cookie-parser');
 
 var session = require('express-session');
 
+const multer  = require('multer')
+
 
 
 require('dotenv').config();

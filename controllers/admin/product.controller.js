@@ -122,6 +122,8 @@ module.exports.changeMulti = async (req, res) => {
           await Product.updateOne({ _id: id }, {
             position: position
           });
+          req.flash("success", `Đã xoá sắp xếp lại vị trí ${ids.length} sản phẩm`);
+        break;
         };
         break;
       default:

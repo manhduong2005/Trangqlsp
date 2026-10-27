@@ -1,10 +1,13 @@
 const Product = require("../../models/product.model");
 
+const systemConfig = require("../../config/system")
+
 const filterStatusHelper = require("../../helpers/filterStatus");
 
 const searchHelper = require("../../helpers/search")
 
-const paginationHelper = require("../../helpers/pagination")
+const paginationHelper = require("../../helpers/pagination");
+const { render } = require("pug");
 //[GET]  /admin/products
 module.exports.index = async (req, res) => {
   // filerStatus, search, pagination
@@ -152,5 +155,41 @@ module.exports.deleteItem = async (req, res) => {
   } catch (error) {
     console.error("Lỗi deleteItem:", error.message);
     res.redirect("/admin/products");
+  }
+}//[GET] /admin/products/create
+module.exports.create = async (req, res) =>{
+  res.render("admin/pages/products/create", {
+    pageTitle: "Thêm mới sản phẩm",
+  });
+};
+//[POST] /admin/products/create
+// [POST] /admin/products/create
+// [POST] /admin/products/create
+module.exports.createPost = async (req, res) => {
+  try {
+    req.body.price = parseInt(req.body.price) || 0;
+    req.body.discountPercentage = parseInt(req.body.discountPercentage) || 0;
+    req.body.stock = parseInt(req.body.stock) || 0;
+
+    if (!req.body.position || req.body.position === "") {
+      const countProducts = await Product.countDocuments();
+      req.body.position = countProducts + 1;
+    } else {
+      req.body.position = parseInt(req.body.position);
+    }
+
+    const product = new Product(req.body);
+    await product.save();
+
+    req.flash("success", "Thêm mới sản phẩm thành công!");
+
+    // Chuyển hướng trực tiếp về route danh sách sản phẩm
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+
+  } catch (error) {
+    console.error("Lỗi createPost:", error.message);
+    req.flash("error", "Thêm mới sản phẩm thất bại!");
+
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
   }
 };

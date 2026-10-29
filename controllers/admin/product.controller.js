@@ -8,6 +8,7 @@ const searchHelper = require("../../helpers/search")
 
 const paginationHelper = require("../../helpers/pagination");
 
+
 //[GET]  /admin/products
 module.exports.index = async (req, res) => {
   // filerStatus, search, pagination

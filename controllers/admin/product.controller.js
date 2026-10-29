@@ -194,3 +194,47 @@ module.exports.createPost = async (req, res) => {
     res.redirect(`${systemConfig.prefixAdmin}/products`);
   }
 };
+//[GET] /admin/products/edit/:id
+module.exports.edit = async (req, res) =>{
+  try {
+     const find = {
+    deleted: false,
+    _id: req.params.id
+  };
+  const product = await Product.findOne(find);
+  
+  res.render("admin/pages/products/edit", {
+    pageTitle: "Chỉnh sửa sản phẩm",
+    product: product
+  });
+  } catch (error){
+    req.flash("error", `Không tồn tại sản phẩm này`);
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+  }
+ 
+};
+//[PATCH] /admin/products/edit/:id
+module.exports.editPatch = async (req, res) =>{
+  try {
+    const id = req.params.id
+    req.body.price = parseInt(req.body.price) || 0;
+    req.body.discountPercentage = parseInt(req.body.discountPercentage) || 0;
+    req.body.stock = parseInt(req.body.stock) || 0;
+
+    req.body.position = parseInt(req.body.position);
+
+    if (req.file) {
+      req.body.thumbnail = `/uploads/${req.file.filename}`;
+    }
+
+    await Product.updateOne({_id: id}, req.body);
+
+    req.flash("success", "Sửa sản phẩm thành công!");
+    const backUrl = req.get("Referrer") || `${systemConfig.prefixAdmin}/products`;
+    res.redirect(backUrl);
+  } catch (error) {
+    console.error("Lỗi cập nhât sản phẩm:", error.message);
+    req.flash("error", "Thêm mới sản phẩm thất bại!");
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
+  }
+};

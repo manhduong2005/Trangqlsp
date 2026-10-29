@@ -23,5 +23,9 @@ router.get('/create', controller.create);
 router.post('/create', upload.single("thumbnail"), validate.creatPost, controller.createPost);
 //upload.single("thumbnail") : hãy tìm file được gửi từ ô input có name là thumbnail, Sau đó dùng đúng quy tắc storageMulter để lưu file đó xuống ổ đĩa.
 
+router.get('/edit/:id', controller.edit);
+
+router.patch('/edit/:id', upload.single("thumbnail"), validate.creatPost, controller.editPatch);
+
 
 module.exports = router;

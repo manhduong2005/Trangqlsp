@@ -250,7 +250,7 @@ module.exports.detail = async (req, res) =>{
   console.log(product);
   
   res.render("admin/pages/products/detail", {
-    pageTitle: Product.title,
+    pageTitle: product.title,
     product: product
   });
   } catch (error){

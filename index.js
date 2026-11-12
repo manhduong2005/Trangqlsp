@@ -35,7 +35,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(methodOverride('_method'))
 
 //cấu hình pug vào dự án
-app.set('views', './views')// chứa các file pug 
+app.set('views', `${__dirname}/views`)// chứa các file pug 
 app.set('view engine', 'pug');
 
 //Flash
@@ -49,7 +49,8 @@ app.use(flash());
 // App local variables
 app.locals.prefixAdmin = systemconfig.prefixAdmin;
 
-app.use(express.static('public'));// nhúng file tĩnh cho dự án trong thư mục public 
+
+app.use(express.static(`${__dirname}/public`));// nhúng file tĩnh cho dự án trong thư mục public 
 
 routeAdmin(app)
 route(app)

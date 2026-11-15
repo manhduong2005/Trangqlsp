@@ -9,4 +9,12 @@ router.get('/create', controller.create);   // ← thêm route để hiển th�
 
 router.post('/create', controller.createPost);   // ← thêm route để xử lý form tạo role
 
+router.get("/edit/:id", controller.edit);
+
+router.patch("/edit/:id", controller.editPatch);
+
+router.get('/detail/:id', controller.detail);
+
+router.delete('/delete/:id', controller.deleteItem);
+
 module.exports = router;
